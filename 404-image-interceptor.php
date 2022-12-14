@@ -28,7 +28,8 @@ function replace_images_domain(){
             if(isset($interceptor_domain)) {
                 header('Content-type:image/' . $request_pathinfo['extension']);
                 http_response_code(200);
-                echo file_get_contents($interceptor_domain . $_SERVER['REQUEST_URI']);
+                $context = stream_context_create(array('http' => array('header'=>'Connection: close\r\n')));
+                echo file_get_contents($interceptor_domain . $_SERVER['REQUEST_URI'], false, $context);
                 exit;
             }
 
